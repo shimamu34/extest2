@@ -1779,24 +1779,30 @@ ${date.getMonth() + 1}/${date.getDate()}`;
                 N('保存に失敗しました', 'error');
             }
         }
-/* --- script.js の末尾に必ず追記する内容 --- */
+// 全体の初期化関数
+function masterInit() {
+    // 1. 各種表の描画
+    if (typeof RT === 'function') RT(); 
+    if (typeof RS === 'function') RS(); 
+    if (typeof RE === 'function') RE(); 
+    if (typeof LI === 'function') LI();
 
-// 1. トラッキング用のセレクトボックスを初期化する命令
-function initTrackingSelectors() {
+    // 2. トラッキング用セレクトボックスの生成（これがないとトラッキングが動きません）
     const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
-    const sel1 = document.getElementById('trackingEvent');
-    const sel2 = document.getElementById('trackingViewEvent');
-    if (sel1 && sel2) {
-        sel1.innerHTML = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
-        sel2.innerHTML = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+    const tEvent = document.getElementById('trackingEvent');
+    const tView = document.getElementById('trackingViewEvent');
+    if (tEvent && tView) {
+        const options = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        tEvent.innerHTML = options;
+        tView.innerHTML = options;
     }
+    
+    console.log("初期化が完了しました");
 }
 
-// 2. ページ読み込み時の初期化
-window.addEventListener('DOMContentLoaded', () => {
-    RT(); // マイレコード描画
-    RS(); // 基準表描画
-    RE(); // 総合ランク描画
-    LI(); // データ読み込み
-    initTrackingSelectors(); // トラッキング種目の選択肢を作成
-});
+// ページ読み込み完了時に実行
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', masterInit);
+} else {
+    masterInit();
+}
