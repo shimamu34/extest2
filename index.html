@@ -56,12 +56,15 @@
     </div>
     
     <div id="growth" style="display:none" class="card">
-        <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📈 経年変化グラフ</h3>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
+            <h3 style="color:#2b6cb0; margin:0">📈 経年変化グラフ</h3>
+            <button class="btn" style="background:#777; padding:5px 15px; font-size:12px;" onclick="clearYearlyData()">🗑️ 履歴リセット</button>
+        </div>
         <canvas id="gc" width="1000" height="500"></canvas>
     </div>
 
     <div id="correlation" style="display:none" class="card">
-        <h3 style="text-align:center;color:#9c27b0;margin-bottom:30px">🎮 体力レーダー図鑑 × 目標達成シミュレーター</h3>
+        <h3 style="text-align:center;color:#9c27b0;margin-bottom:30px">🎮 体力レーダー図鑑</h3>
         <div id="fitnessPokedex" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
         <div id="totalRank" style="margin-top:25px;padding:20px;background:rgba(255,255,255,0.2);border-radius:12px;text-align:center;font-size:20px;font-weight:bold"></div>
         <div id="goalSimulator"></div>
@@ -104,17 +107,18 @@
         </div>
         
         <div style="background:#f5f5f5;padding:30px;border-radius:15px;margin-bottom:30px">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px">
                 <h4 style="margin:0;font-size:20px;color:#FF5722">📊 変容グラフ</h4>
-                <div>
-                    <label style="margin-right:10px;color:#666">表示種目:</label>
-                    <select id="trackingViewEvent" onchange="updateTrackingView()" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0"></select>
+                <div style="display:flex; gap:10px; align-items:center">
+                    <button class="btn" style="background:#777; padding:5px 15px; font-size:12px;" onclick="clearTrackingData()">🗑️ リセット</button>
+                    <div>
+                        <select id="trackingViewEvent" onchange="updateTrackingView()" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0"></select>
+                    </div>
                 </div>
             </div>
             <div style="background:white;padding:20px;border-radius:12px;margin-bottom:20px">
                 <canvas id="trackingGraph" width="1000" height="400"></canvas>
             </div>
-            <div id="trackingStats" style="background:white;padding:20px;border-radius:12px"></div>
         </div>
 
         <div style="background:#f5f5f5;padding:30px;border-radius:15px">
@@ -123,24 +127,14 @@
         </div>
     </div>
 
-    <div class="card no-print">
-        <h2 style="color:#2b6cb0">⭐ 点数基準</h2>
-        <div id="score"></div>
-    </div>
-    
-    <div class="card no-print">
-        <h2 style="color:#2b6cb0">🏆 総合ランク</h2>
-        <div id="eval"></div>
-    </div>
+    <div class="card no-print"><h2>⭐ 点数基準</h2><div id="score"></div></div>
+    <div class="card no-print"><h2>🏆 総合ランク</h2><div id="eval"></div></div>
     
     <div id="setupModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto">
-        <div style="max-width:900px;margin:50px auto;background:white;border-radius:20px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-            <div id="setupContent"></div>
-        </div>
+        <div style="max-width:900px;margin:50px auto;background:white;border-radius:20px;padding:40px;"><div id="setupContent"></div></div>
     </div>
 
     <div id="notif" class="notification"></div>
-    
     <script src="script.js"></script>
 </body>
 </html>
