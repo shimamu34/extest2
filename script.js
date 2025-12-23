@@ -1779,10 +1779,11 @@ ${date.getMonth() + 1}/${date.getDate()}`;
                 N('保存に失敗しました', 'error');
             }
         }
-// ページが読み込まれた時に表を表示させる命令（これがないと表が出ません）
 window.addEventListener('DOMContentLoaded', () => {
-    RT(); // マイレコード表を作成
-    RS(); // 点数基準表を作成
-    RE(); // 総合ランク表を作成
-    LI(); // 保存されているデータを読み込む
+    // ページが読み込まれた瞬間に各表を作成する命令
+    if (typeof RT === 'function') RT(); // マイレコード
+    if (typeof RS === 'function') RS(); // 点数基準
+    if (typeof RE === 'function') RE(); // 総合ランク
+    if (typeof LI === 'function') LI(); // 保存データの読み込み
 });
+// --- ここまで ---
