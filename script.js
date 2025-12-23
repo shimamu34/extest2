@@ -1878,24 +1878,48 @@ function masterInit() {
 
 window.addEventListener('DOMContentLoaded', masterInit);
 
-/* --- 経年変化リセット（空データ上書き版） --- */
-function clearYearlyData() {
-    if (confirm('過去の全履歴を完全に消去します。よろしいですか？')) {
-        
-        // 1. データを削除する
-        localStorage.removeItem('fitnessHistory');
-        localStorage.removeItem('yearlyData');
-        
-        // 2. 【重要】「空っぽのデータ」をあえて保存する
-        // これにより、プログラムが「データがないからサンプルを出そう」とするのを防ぎます
-        localStorage.setItem('fitnessHistory', JSON.stringify([]));
-        
-        // 3. メモリ上の変数をクリア（もしあれば）
-        if (typeof historyData !== 'undefined') historyData = [];
+/* --- 【整理済み】これだけを末尾に残してください --- */
 
-        alert('履歴を空にしました。');
-        
-        // 4. 強制リロード
+// 経年変化（FH）のリセット
+function clearYearlyData() {
+    if (confirm('経年変化の履歴をすべて削除しますか？')) {
+        // 保存名 FH と yearlyData の両方を空にする
+        localStorage.removeItem('FH'); 
+        localStorage.setItem('FH', JSON.stringify([])); 
+        localStorage.removeItem('yearlyData');
+        alert('履歴を削除しました。');
         location.reload();
     }
 }
+
+// トラッキングデータのリセット
+function clearTrackingData() {
+    if (confirm('トラッキングデータをすべて削除しますか？')) {
+        localStorage.removeItem('tracking-male');
+        localStorage.removeItem('tracking-female');
+        alert('トラッキングデータを削除しました。');
+        if (typeof updateTrackingView === 'function') updateTrackingView();
+    }
+}
+
+// すべての起動処理をまとめる
+function masterInit() {
+    // 既存機能の呼び出し
+    if (typeof RT === 'function') RT(); 
+    if (typeof RS === 'function') RS(); 
+    if (typeof LI === 'function') LI();
+
+    // 種目リストの初期化
+    const eventNames = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
+    const tE = document.getElementById('trackingEvent');
+    const tV = document.getElementById('trackingViewEvent');
+    if (tE && tV) {
+        const opt = eventNames.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        tE.innerHTML = opt; 
+        tV.innerHTML = opt;
+    }
+    if (typeof updateTrackingView === 'function') updateTrackingView();
+}
+
+// 最後に1回だけ登録
+window.addEventListener('DOMContentLoaded', masterInit);
