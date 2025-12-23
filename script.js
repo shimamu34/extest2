@@ -1827,21 +1827,23 @@ if (document.readyState === 'loading') {
 }
 /* --- script.js の一番最後に貼り付け --- */
 
-// 経年変化（過去の全履歴）を完全にリセットする
+/* --- 経年変化データを確実に抹消する修正版 --- */
 function clearYearlyData() {
     if (confirm('【注意】保存されている「過去の全履歴（経年変化）」を完全に削除しますか？\n（今年の入力データは消えません）')) {
         
-        // ローカルストレージからデータを削除
+        // 原因はこれでした。保存名が 'fitnessHistory' になっています。
+        localStorage.removeItem('fitnessHistory');
+        
+        // 念のため、これまで試した名前も一緒に消しておきます
         localStorage.removeItem('yearlyData');
         
-        // 通知を表示
         if (typeof N === 'function') {
             N('履歴を完全に消去しました', 'info');
         }
 
-        // 0.5秒後にページを強制リロードして画面を真っ白にする
+        // 画面をリロードしてグラフを真っ白にする
         setTimeout(() => {
-            location.reload(true); 
+            location.reload(); 
         }, 500);
     }
 }
