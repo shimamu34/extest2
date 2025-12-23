@@ -1779,115 +1779,24 @@ ${date.getMonth() + 1}/${date.getDate()}`;
                 N('保存に失敗しました', 'error');
             }
         }
-window.addEventListener('DOMContentLoaded', () => {
-    // ページが読み込まれた瞬間に各表を作成する命令
-    if (typeof RT === 'function') RT(); // マイレコード
-    if (typeof RS === 'function') RS(); // 点数基準
-    if (typeof RE === 'function') RE(); // 総合ランク
-    if (typeof LI === 'function') LI(); // 保存データの読み込み
-});
-/* --- 種目別トラッキング用システム --- */
+/* --- script.js の末尾に必ず追記する内容 --- */
 
-// 1. 記録を追加する関数
-function addTrackingRecord() {
-    const eventIdx = document.getElementById('trackingEvent').value;
-    const value = parseFloat(document.getElementById('trackingValue').value);
-    const date = document.getElementById('trackingDate').value;
-    const unit = document.getElementById('trackingUnit').value;
-    const memo = document.getElementById('trackingMemo').value;
-    const gender = document.getElementById('gender').value;
-
-    if (isNaN(value) || !date) {
-        N('数値と日付を入力してください', 'error');
-        return;
+// 1. トラッキング用のセレクトボックスを初期化する命令
+function initTrackingSelectors() {
+    const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
+    const sel1 = document.getElementById('trackingEvent');
+    const sel2 = document.getElementById('trackingViewEvent');
+    if (sel1 && sel2) {
+        sel1.innerHTML = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        sel2.innerHTML = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
     }
-
-    const key = `tracking-${gender}`;
-    let data = JSON.parse(localStorage.getItem(key) || '{}');
-    if (!data[eventIdx]) data[eventIdx] = [];
-
-    data[eventIdx].push({
-        v: value,
-        d: date,
-        u: unit,
-        m: memo,
-        id: Date.now()
-    });
-
-    // 日付順に並び替え
-    data[eventIdx].sort((a, b) => new Date(a.d) - new Date(b.d));
-    localStorage.setItem(key, JSON.stringify(data));
-
-    N('記録を追加しました！');
-    updateTrackingView();
 }
 
-// 2. グラフと一覧を更新する関数
-let trackingChart = null;
-function updateTrackingView() {
-    const eventIdx = document.getElementById('trackingViewEvent').value;
-    const gender = document.getElementById('gender').value;
-    const key = `tracking-${gender}`;
-    const data = JSON.parse(localStorage.getItem(key) || '{}')[eventIdx] || [];
-    
-    // グラフの更新
-    const ctx = document.getElementById('trackingGraph').getContext('2d');
-    if (trackingChart) trackingChart.destroy();
-
-    const eventNames = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
-
-    trackingChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: data.map(d => d.d),
-            datasets: [{
-                label: eventNames[eventIdx],
-                data: data.map(d => d.v),
-                borderColor: '#FF5722',
-                backgroundColor: 'rgba(255, 87, 34, 0.1)',
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
-
-    // 一覧表の更新
-    let html = '<table><tr><th>日付</th><th>記録</th><th>単元</th><th>操作</th></tr>';
-    data.forEach((item, i) => {
-        html += `<tr>
-            <td>${item.d}</td>
-            <td>${item.v}</td>
-            <td>${item.u || '-'}</td>
-            <td><button class="btn" style="padding:4px 8px;background:#f44336;font-size:12px" onclick="deleteTracking(${eventIdx}, ${item.id})">削除</button></td>
-        </tr>`;
-    });
-    html += '</table>';
-    document.getElementById('trackingList').innerHTML = html;
-}
-
-// 3. 削除機能
-function deleteTracking(eventIdx, id) {
-    if (!confirm('この記録を削除しますか？')) return;
-    const gender = document.getElementById('gender').value;
-    const key = `tracking-${gender}`;
-    let data = JSON.parse(localStorage.getItem(key) || '{}');
-    data[eventIdx] = data[eventIdx].filter(item => item.id !== id);
-    localStorage.setItem(key, JSON.stringify(data));
-    updateTrackingView();
-}
-
-// 4. パネルの表示切り替え
-function toggleTracking() {
-    const div = document.getElementById('tracking');
-    div.style.display = (div.style.display === 'none') ? 'block' : 'none';
-    if (div.style.display === 'block') updateTrackingView();
-}
-
-// 初期化処理（一番最後に記述）
+// 2. ページ読み込み時の初期化
 window.addEventListener('DOMContentLoaded', () => {
-    if (typeof RT === 'function') RT();
-    if (typeof RS === 'function') RS();
-    if (typeof RE === 'function') RE();
-    if (typeof LI === 'function') LI();
+    RT(); // マイレコード描画
+    RS(); // 基準表描画
+    RE(); // 総合ランク描画
+    LI(); // データ読み込み
+    initTrackingSelectors(); // トラッキング種目の選択肢を作成
 });
