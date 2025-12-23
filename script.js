@@ -1825,101 +1825,39 @@ if (document.readyState === 'loading') {
 } else {
     masterInit();
 }
-/* --- script.js の一番最後に貼り付け --- */
+/* --- 各リセット機能の完全版 --- */
 
-/* --- 最終手段：経年変化リセット（全パターン対応版） --- */
+// 1. 経年変化リセット (保存名 FH をターゲット)
 function clearYearlyData() {
-    if (confirm('【最終確認】過去の全履歴を完全に消去します。よろしいですか？')) {
-        
-        // 考えられるすべての保存名を一斉に削除します
-        const keys = [
-            'fitnessHistory', 
-            'yearlyData', 
-            'fitness_history', 
-            'fitnessDataHistory', 
-            'history'
-        ];
-        
-        keys.forEach(key => localStorage.removeItem(key));
-        
-        // 【重要】画面を真っ白にするためにページを完全にリフレッシュ
-        alert('データを抹消しました。ページを再読み込みします。');
-        window.location.href = window.location.href; 
-    }
-}
-
-// トラッキングリセット
-function clearTrackingData() {
-    if (confirm('【注意】「種目別トラッキング」の全データを削除しますか？')) {
-        localStorage.removeItem('tracking-male');
-        localStorage.removeItem('tracking-female');
-        N('トラッキングデータをリセットしました', 'info');
-        if (typeof updateTrackingView === 'function') updateTrackingView();
-    }
-}
-
-// 起動スイッチ
-function masterInit() {
-    if (typeof RT === 'function') RT(); 
-    if (typeof RS === 'function') RS(); 
-    if (typeof RE === 'function') RE(); 
-    if (typeof LI === 'function') LI();
-
-    const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
-    const tEvent = document.getElementById('trackingEvent');
-    const tView = document.getElementById('trackingViewEvent');
-    if (tEvent && tView) {
-        const options = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
-        tEvent.innerHTML = options;
-        tView.innerHTML = options;
-    }
-    if (typeof updateTrackingView === 'function') updateTrackingView();
-}
-
-window.addEventListener('DOMContentLoaded', masterInit);
-
-/* --- 【整理済み】これだけを末尾に残してください --- */
-
-// 経年変化（FH）のリセット
-function clearYearlyData() {
-    if (confirm('経年変化の履歴をすべて削除しますか？')) {
-        // 保存名 FH と yearlyData の両方を空にする
+    if (confirm('経年変化の履歴を削除しますか？')) {
+        // 保存名を FH に指定し、かつ空の配列で上書きして復元を阻止
         localStorage.removeItem('FH'); 
         localStorage.setItem('FH', JSON.stringify([])); 
-        localStorage.removeItem('yearlyData');
-        alert('履歴を削除しました。');
+        alert('履歴を削除しました');
         location.reload();
     }
 }
 
-// トラッキングデータのリセット
+// 2. 種目別トラッキングリセット
 function clearTrackingData() {
-    if (confirm('トラッキングデータをすべて削除しますか？')) {
+    if (confirm('トラッキングデータを削除しますか？')) {
         localStorage.removeItem('tracking-male');
         localStorage.removeItem('tracking-female');
-        alert('トラッキングデータを削除しました。');
         if (typeof updateTrackingView === 'function') updateTrackingView();
     }
 }
 
-// すべての起動処理をまとめる
+// 3. 起動スイッチ
 function masterInit() {
-    // 既存機能の呼び出し
     if (typeof RT === 'function') RT(); 
     if (typeof RS === 'function') RS(); 
     if (typeof LI === 'function') LI();
-
-    // 種目リストの初期化
-    const eventNames = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
-    const tE = document.getElementById('trackingEvent');
-    const tV = document.getElementById('trackingViewEvent');
+    const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
+    const tE = document.getElementById('trackingEvent'), tV = document.getElementById('trackingViewEvent');
     if (tE && tV) {
-        const opt = eventNames.map((e, i) => `<option value="${i}">${e}</option>`).join('');
-        tE.innerHTML = opt; 
-        tV.innerHTML = opt;
+        const opt = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        tE.innerHTML = opt; tV.innerHTML = opt;
     }
     if (typeof updateTrackingView === 'function') updateTrackingView();
 }
-
-// 最後に1回だけ登録
 window.addEventListener('DOMContentLoaded', masterInit);
