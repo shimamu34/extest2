@@ -1877,3 +1877,25 @@ function masterInit() {
 }
 
 window.addEventListener('DOMContentLoaded', masterInit);
+
+/* --- 経年変化リセット（空データ上書き版） --- */
+function clearYearlyData() {
+    if (confirm('過去の全履歴を完全に消去します。よろしいですか？')) {
+        
+        // 1. データを削除する
+        localStorage.removeItem('fitnessHistory');
+        localStorage.removeItem('yearlyData');
+        
+        // 2. 【重要】「空っぽのデータ」をあえて保存する
+        // これにより、プログラムが「データがないからサンプルを出そう」とするのを防ぎます
+        localStorage.setItem('fitnessHistory', JSON.stringify([]));
+        
+        // 3. メモリ上の変数をクリア（もしあれば）
+        if (typeof historyData !== 'undefined') historyData = [];
+
+        alert('履歴を空にしました。');
+        
+        // 4. 強制リロード
+        location.reload();
+    }
+}
