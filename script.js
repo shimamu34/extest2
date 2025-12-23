@@ -1787,32 +1787,41 @@ if (document.readyState === 'loading') {
 } else {
     masterInit();
 }
-/* script.js の最後をこれに差し替え */
-let trackingChart = null; // グラフを管理する変数
+/* --- ここから下を script.js の一番最後に貼り付け（上書き） --- */
 
 function masterInit() {
-    // 1. 各種表とデータの読み込み
+    console.log("初期化システム起動...");
+    
+    // 1. 各種表の描画を実行
     if (typeof RT === 'function') RT(); 
     if (typeof RS === 'function') RS(); 
     if (typeof RE === 'function') RE(); 
+    
+    // 2. データの読み込み
     if (typeof LI === 'function') LI();
 
-    // 2. セレクトボックスの選択肢（種目名）を作成
-    const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
+    // 3. 種目名リストの作成（トラッキング用）
+    const eventNames = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
     const tEvent = document.getElementById('trackingEvent');
     const tView = document.getElementById('trackingViewEvent');
     
     if (tEvent && tView) {
-        const options = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        const options = eventNames.map((e, i) => `<option value="${i}">${e}</option>`).join('');
         tEvent.innerHTML = options;
         tView.innerHTML = options;
     }
 
-    // 3. トラッキング表示の更新（保存されているデータの読み込み）
+    // 4. トラッキング表示の更新（保存データがある場合）
     if (typeof updateTrackingView === 'function') {
         updateTrackingView();
     }
+    
+    console.log("すべての表と機能を正常に起動しました");
 }
 
-// ページ読み込み時に実行
-window.addEventListener('DOMContentLoaded', masterInit);
+// ブラウザに「準備ができたら masterInit を動かせ」と命令する（最も確実な方法）
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', masterInit);
+} else {
+    masterInit();
+}
