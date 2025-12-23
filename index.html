@@ -64,9 +64,9 @@
         <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📈 経年変化グラフ</h3>
         <canvas id="gc" width="1000" height="500"></canvas>
     </div>
-
+    
     <div id="correlation" style="display:none" class="card">
-        <h3 style="text-align:center;color:#9c27b0;margin-bottom:30px">🎮 体力レーダー図鑑</h3>
+        <h3 style="text-align:center;color:#9c27b0;margin-bottom:30px">🎮 体力レーダー図鑑 × 目標達成シミュレーター</h3>
         <div id="fitnessPokedex"></div>
         <div id="totalRank"></div>
         <div id="goalSimulator"></div>
@@ -89,13 +89,6 @@
     </div>
     
     <div id="notif" class="notification"></div>
-    
     <script src="script.js"></script>
-    <script>
-        // 初期化処理を確実に実行
-        window.onload = function() {
-            RT(); RS(); RE(); LI();
-        };
-    </script>
 </body>
 </html>
