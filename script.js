@@ -1825,3 +1825,43 @@ if (document.readyState === 'loading') {
 } else {
     masterInit();
 }
+/* --- script.js の一番最後に貼り付け --- */
+
+// 経年変化リセット
+function clearYearlyData() {
+    if (confirm('【注意】保存されている「過去の全履歴（経年変化）」を削除しますか？\n（今年の入力データは消えません）')) {
+        localStorage.removeItem('yearlyData');
+        N('履歴をリセットしました', 'info');
+        location.reload(); 
+    }
+}
+
+// トラッキングリセット
+function clearTrackingData() {
+    if (confirm('【注意】「種目別トラッキング」の全データを削除しますか？')) {
+        localStorage.removeItem('tracking-male');
+        localStorage.removeItem('tracking-female');
+        N('トラッキングデータをリセットしました', 'info');
+        if (typeof updateTrackingView === 'function') updateTrackingView();
+    }
+}
+
+// 起動スイッチ
+function masterInit() {
+    if (typeof RT === 'function') RT(); 
+    if (typeof RS === 'function') RS(); 
+    if (typeof RE === 'function') RE(); 
+    if (typeof LI === 'function') LI();
+
+    const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
+    const tEvent = document.getElementById('trackingEvent');
+    const tView = document.getElementById('trackingViewEvent');
+    if (tEvent && tView) {
+        const options = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
+        tEvent.innerHTML = options;
+        tView.innerHTML = options;
+    }
+    if (typeof updateTrackingView === 'function') updateTrackingView();
+}
+
+window.addEventListener('DOMContentLoaded', masterInit);
