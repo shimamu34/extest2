@@ -1,3 +1,4 @@
+/* style.css */
 * {
     margin: 0;
     padding: 0;
@@ -144,14 +145,8 @@ input[type="number"] {
 }
 
 @keyframes slideIn {
-    from {
-        transform: translateX(400px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+    from { transform: translateX(400px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
 }
 
 .notification::before {
@@ -167,32 +162,14 @@ input[type="number"] {
     margin-right: 10px;
 }
 
-.notification.error::before {
-    content: '✕';
-    background: #f44336;
-}
-
-.notification.info::before {
-    content: 'ℹ';
-    background: #2196F3;
-}
+.notification.error::before { content: '✕'; background: #f44336; }
+.notification.info::before { content: 'ℹ'; background: #2196F3; }
 
 @media print {
-    .no-print {
-        display: none !important;
-    }
-    #radar {
-        display: flex !important;
-    }
-    body {
-        background: white;
-    }
+    .no-print { display: none !important; }
+    #radar { display: flex !important; }
+    body { background: white; }
 }
 
-canvas {
-    border-radius: 12px;
-}
-
-#radar, #growth {
-    padding: 20px;
-}
+canvas { border-radius: 12px; }
+#radar, #growth { padding: 20px; }
