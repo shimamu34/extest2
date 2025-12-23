@@ -1779,6 +1779,16 @@ ${date.getMonth() + 1}/${date.getDate()}`;
                 N('保存に失敗しました', 'error');
             }
         }
+
+
+// ページ読み込み完了時に実行
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', masterInit);
+} else {
+    masterInit();
+}
+/* --- script.js の一番最後（ saveUrlAndNext関数の後など）に必ず追記 --- */
+
 // 全体の初期化関数
 function masterInit() {
     // 1. 各種表の描画
