@@ -62,14 +62,11 @@
                 <div>単位：<input type="text" id="trackingUnit" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
                 <div>日付：<input type="date" id="trackingDate" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
             </div>
-            <div style="margin-top:15px">メモ：<input type="text" id="trackingMemo" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
-            <button class="btn" style="width:100%;margin-top:20px;background:#FF5722" onclick="addTrackingRecord()">追加</button>
+            <button class="btn" style="width:100%;margin-top:20px;background:#FF5722" onclick="addTrackingRecord()">記録を追加</button>
         </div>
-        <div>
-            表示種目：<select id="trackingViewEvent" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0" onchange="updateTrackingView()"></select>
-        </div>
+        <div>表示種目：<select id="trackingViewEvent" onchange="updateTrackingView()"></select></div>
         <div style="height:400px;margin-top:20px"><canvas id="trackingGraph"></canvas></div>
-        <div id="trackingList" style="margin-top:30px"></div>
+        <div id="trackingList"></div>
     </div>
 
     <div class="card no-print"><h2>⭐ 点数基準</h2><div id="score"></div></div>
@@ -79,6 +76,7 @@
         <div style="max-width:900px;margin:50px auto;background:white;border-radius:20px;padding:40px"><div id="setupContent"></div></div>
     </div>
     <div id="notif" class="notification"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
