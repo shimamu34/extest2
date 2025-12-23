@@ -1718,10 +1718,91 @@ ${date.getMonth() + 1}/${date.getDate()}`;
                     </div>
                 </div>`,
                 
-                // ステップ3: 完了画面（次のステップで実装予定）
-                `<div style="text-align:center">
-                    <h2 style="color:#4CAF50;font-size:32px;margin-bottom:20px">🎉 設定完了！</h2>
-                    <p style="font-size:18px;margin:20px 0">URL保存機能が正常に動作しています！</p>
+// ステップ3: 生徒配布用URL生成
+`<div>
+    <h3 style="color:#4CAF50;margin-bottom:20px">🔗 生徒配布用URL生成</h3>
+    <div style="background:#e8f5e9;padding:20px;border-radius:12px;margin-bottom:20px">
+        <p style="margin:0 0 10px 0;font-weight:bold">✅ URLの準備が完了しました</p>
+        <p style="margin:10px 0;color:#666">このURLを生徒に配布してください。生徒がこのURLにアクセスすると、このシステムが開きます。</p>
+    </div>
+    
+    <div style="background:#f5f5f5;padding:20px;border-radius:12px;margin-bottom:20px">
+        <label style="display:block;margin-bottom:10px;font-weight:bold;color:#333">📋 生徒配布用URL:</label>
+        <div style="display:flex;gap:10px;align-items:center">
+            <input type="text" id="studentUrl" readonly value="${window.location.href}" 
+                   style="flex:1;padding:12px;border:2px solid #4CAF50;border-radius:8px;font-size:13px;background:white">
+            <button class="btn" style="background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:12px 24px" onclick="copyStudentUrl()">📋 コピー</button>
+        </div>
+        <p style="margin-top:10px;font-size:13px;color:#666">
+            💡 このURLをGoogle Classroom、メール、QRコードなどで生徒に共有してください
+        </p>
+    </div>
+    
+    <div style="background:#fff3e0;padding:20px;border-radius:12px;margin-bottom:20px">
+        <h4 style="margin:0 0 15px 0;color:#FF5722">📱 QRコード生成（オプション）</h4>
+        <p style="margin-bottom:15px;font-size:14px;color:#666">
+            URLをQRコード化して印刷・掲示する場合は、以下のサービスを利用できます：
+        </p>
+        <button class="btn" style="background:linear-gradient(135deg,#FF9800,#FFA726);padding:10px 20px;font-size:14px" onclick="generateQR()">📱 QRコード作成サイトを開く</button>
+    </div>
+    
+    <div style="margin-top:30px;display:flex;justify-content:space-between">
+        <button class="btn" style="background:#999" onclick="prevStep()">◀ 戻る</button>
+        <button class="btn" style="background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:12px 30px" onclick="nextStep()">完了 ✓</button>
+    </div>
+</div>`,
+
+// ステップ4: 最終完了画面
+`<div style="text-align:center">
+    <h2 style="color:#4CAF50;font-size:32px;margin-bottom:20px">🎉 設定完了！</h2>
+    <div style="font-size:64px;margin:30px 0">✅</div>
+    <p style="font-size:18px;margin:20px 0;line-height:1.8">
+        すべての設定が完了しました！<br>
+        生徒がURLにアクセスすると、記録を送信できるようになります。
+    </p>
+    
+    <div style="background:#f5f5f5;padding:20px;border-radius:12px;margin:30px auto;max-width:500px">
+        <h4 style="margin:0 0 15px 0;color:#333">📝 次のステップ</h4>
+        <div style="text-align:left;line-height:2">
+            1️⃣ 生徒にURLを配布<br>
+            2️⃣ 生徒が記録を入力・送信<br>
+            3️⃣ スプレッドシートで自動集計
+        </div>
+    </div>
+    
+    <div style="margin-top:40px">
+        <button class="btn" style="background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:15px 40px;font-size:16px" onclick="closeTestModal()">閉じる</button>
+    </div>
+    <div style="margin-top:20px">
+        <button class="btn" style="background:#999;padding:10px 30px" onclick="currentStep=2;renderCurrentStep()">◀ URLを確認</button>
+    </div>
+</div>`
+                    
+// ステップ4: 最終完了画面
+`<div style="text-align:center">
+    <h2 style="color:#4CAF50;font-size:32px;margin-bottom:20px">🎉 設定完了！</h2>
+    <div style="font-size:64px;margin:30px 0">✅</div>
+    <p style="font-size:18px;margin:20px 0;line-height:1.8">
+        すべての設定が完了しました！<br>
+        生徒がURLにアクセスすると、記録を送信できるようになります。
+    </p>
+    
+    <div style="background:#f5f5f5;padding:20px;border-radius:12px;margin:30px auto;max-width:500px">
+        <h4 style="margin:0 0 15px 0;color:#333">📝 次のステップ</h4>
+        <div style="text-align:left;line-height:2">
+            1️⃣ 生徒にURLを配布<br>
+            2️⃣ 生徒が記録を入力・送信<br>
+            3️⃣ スプレッドシートで自動集計
+        </div>
+    </div>
+    
+    <div style="margin-top:40px">
+        <button class="btn" style="background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:15px 40px;font-size:16px" onclick="closeTestModal()">閉じる</button>
+    </div>
+    <div style="margin-top:20px">
+        <button class="btn" style="background:#999;padding:10px 30px" onclick="currentStep=2;renderCurrentStep()">◀ URLを確認</button>
+    </div>
+</div>`                    <p style="font-size:18px;margin:20px 0">URL保存機能が正常に動作しています！</p>
                     <div style="margin-top:40px">
                         <button class="btn" style="background:linear-gradient(135deg,#4CAF50,#66BB6A);padding:15px 40px" onclick="closeTestModal()">完了</button>
                     </div>
@@ -1848,4 +1929,33 @@ function clearTrackingData() {
         location.reload();
     }
 }
+// 生徒配布用URLをコピー
+function copyStudentUrl() {
+    const urlInput = document.getElementById('studentUrl');
+    if (urlInput) {
+        urlInput.select();
+        urlInput.setSelectionRange(0, 99999);
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(urlInput.value).then(() => {
+                N('URLをコピーしました！生徒に配布してください', 'success');
+            }).catch(() => {
+                document.execCommand('copy');
+                N('URLをコピーしました！生徒に配布してください', 'success');
+            });
+        } else {
+            document.execCommand('copy');
+            N('URLをコピーしました！生徒に配布してください', 'success');
+        }
+    }
+}
+
+// QRコード生成サイトを開く
+function generateQR() {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${url}`, '_blank');
+    N('QRコード生成サイトを開きました', 'info');
+}
+
+window.addEventListener('DOMContentLoaded', masterInit);
 window.addEventListener('DOMContentLoaded', masterInit);
