@@ -1827,24 +1827,24 @@ if (document.readyState === 'loading') {
 }
 /* --- script.js の一番最後に貼り付け --- */
 
-/* --- 経年変化データを確実に抹消する修正版 --- */
+/* --- 最終手段：経年変化リセット（全パターン対応版） --- */
 function clearYearlyData() {
-    if (confirm('【注意】保存されている「過去の全履歴（経年変化）」を完全に削除しますか？\n（今年の入力データは消えません）')) {
+    if (confirm('【最終確認】過去の全履歴を完全に消去します。よろしいですか？')) {
         
-        // 原因はこれでした。保存名が 'fitnessHistory' になっています。
-        localStorage.removeItem('fitnessHistory');
+        // 考えられるすべての保存名を一斉に削除します
+        const keys = [
+            'fitnessHistory', 
+            'yearlyData', 
+            'fitness_history', 
+            'fitnessDataHistory', 
+            'history'
+        ];
         
-        // 念のため、これまで試した名前も一緒に消しておきます
-        localStorage.removeItem('yearlyData');
+        keys.forEach(key => localStorage.removeItem(key));
         
-        if (typeof N === 'function') {
-            N('履歴を完全に消去しました', 'info');
-        }
-
-        // 画面をリロードしてグラフを真っ白にする
-        setTimeout(() => {
-            location.reload(); 
-        }, 500);
+        // 【重要】画面を真っ白にするためにページを完全にリフレッシュ
+        alert('データを抹消しました。ページを再読み込みします。');
+        window.location.href = window.location.href; 
     }
 }
 
