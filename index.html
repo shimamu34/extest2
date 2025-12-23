@@ -21,7 +21,7 @@
     </div>
     
     <div class="card no-print" style="text-align:center">
-        性別：<select id="gender" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0;margin:0 10px" onchange="RT();RS();U();">
+        性別：<select id="gender" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0;margin:0 10px" onchange="RT();RS();U();updateTrackingView();">
             <option value="male">男子</option>
             <option value="female">女子</option>
         </select>
@@ -31,15 +31,10 @@
             <option value="3">中3</option>
         </select>
         組：<select id="class" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0;margin:0 10px">
-            <option value="A">A組</option>
-            <option value="B">B組</option>
-            <option value="C">C組</option>
-            <option value="D">D組</option>
+            <option value="A">A組</option><option value="B">B組</option><option value="C">C組</option><option value="D">D組</option>
         </select>
         測定回：<select id="session" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0;margin:0 10px">
-            <option value="1">1回目</option>
-            <option value="2">2回目</option>
-            <option value="3">3回目</option>
+            <option value="1">1回目</option><option value="2">2回目</option><option value="3">3回目</option>
         </select>
     </div>
     
@@ -55,47 +50,35 @@
         <button class="btn" style="background:linear-gradient(135deg,#FF5722,#FF7043)" onclick="toggleTracking()">📈 種目別トラッキング</button>
     </div>
     
-    <div id="radar" style="display:none" class="card">
-        <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📊 レーダーチャート</h3>
-        <div style="display:flex;justify-content:center"><canvas id="rc" width="600" height="600"></canvas></div>
-    </div>
-    
-    <div id="growth" style="display:none" class="card">
-        <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📈 経年変化グラフ</h3>
-        <canvas id="gc" width="1000" height="500"></canvas>
-    </div>
-
-    <div id="correlation" style="display:none" class="card">
-        <h3 style="text-align:center;color:#9c27b0;margin-bottom:30px">🎮 体力レーダー図鑑 × 目標達成シミュレーター</h3>
-        <div id="fitnessPokedex" style="display:grid;grid-template-columns:1fr 1fr;gap:20px"></div>
-        <div id="totalRank" style="margin-top:25px;padding:20px;background:rgba(255,255,255,0.2);border-radius:12px;text-align:center;font-size:20px;font-weight:bold"></div>
-        <div id="goalSimulator"></div>
-    </div>
+    <div id="radar" style="display:none" class="card"><canvas id="rc" width="600" height="600"></canvas></div>
+    <div id="growth" style="display:none" class="card"><canvas id="gc" width="1000" height="500"></canvas></div>
 
     <div id="tracking" style="display:none" class="card">
         <h3 style="text-align:center;color:#FF5722;margin-bottom:30px">📈 種目別トラッキング</h3>
-        <canvas id="trackingGraph" width="1000" height="400"></canvas>
-        <div id="trackingList"></div>
-    </div>
-    
-    <div class="card no-print">
-        <h2 style="color:#2b6cb0">⭐ 点数基準</h2>
-        <div id="score"></div>
-    </div>
-    
-    <div class="card no-print">
-        <h2 style="color:#2b6cb0">🏆 総合ランク</h2>
-        <div id="eval"></div>
-    </div>
-
-    <div id="setupModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000;overflow-y:auto">
-        <div style="max-width:900px;margin:50px auto;background:white;border-radius:20px;padding:40px;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-            <div id="setupContent"></div>
+        <div style="background:#fff3e0;padding:25px;border-radius:15px;margin-bottom:30px;border:1px solid #ffe0b2">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:15px">
+                <div>種目：<select id="trackingEvent" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></select></div>
+                <div>記録：<input type="number" id="trackingValue" step="0.1" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
+                <div>単位：<input type="text" id="trackingUnit" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
+                <div>日付：<input type="date" id="trackingDate" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
+            </div>
+            <div style="margin-top:15px">メモ：<input type="text" id="trackingMemo" style="width:100%;padding:8px;border-radius:8px;border:2px solid #ffccbc"></div>
+            <button class="btn" style="width:100%;margin-top:20px;background:#FF5722" onclick="addTrackingRecord()">追加</button>
         </div>
+        <div>
+            表示種目：<select id="trackingViewEvent" style="padding:8px;border-radius:8px;border:2px solid #e0e0e0" onchange="updateTrackingView()"></select>
+        </div>
+        <div style="height:400px;margin-top:20px"><canvas id="trackingGraph"></canvas></div>
+        <div id="trackingList" style="margin-top:30px"></div>
     </div>
 
-    <div id="notif" class="notification"></div>
+    <div class="card no-print"><h2>⭐ 点数基準</h2><div id="score"></div></div>
+    <div class="card no-print"><h2>🏆 総合ランク</h2><div id="eval"></div></div>
     
+    <div id="setupModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:2000">
+        <div style="max-width:900px;margin:50px auto;background:white;border-radius:20px;padding:40px"><div id="setupContent"></div></div>
+    </div>
+    <div id="notif" class="notification"></div>
     <script src="script.js"></script>
 </body>
 </html>
