@@ -1787,32 +1787,32 @@ if (document.readyState === 'loading') {
 } else {
     masterInit();
 }
-/* --- script.js の一番最後（ saveUrlAndNext関数の後など）に必ず追記 --- */
+/* script.js の最後をこれに差し替え */
+let trackingChart = null; // グラフを管理する変数
 
-// 全体の初期化関数
 function masterInit() {
-    // 1. 各種表の描画
+    // 1. 各種表とデータの読み込み
     if (typeof RT === 'function') RT(); 
     if (typeof RS === 'function') RS(); 
     if (typeof RE === 'function') RE(); 
     if (typeof LI === 'function') LI();
 
-    // 2. トラッキング用セレクトボックスの生成（これがないとトラッキングが動きません）
+    // 2. セレクトボックスの選択肢（種目名）を作成
     const evs = ["握力", "上体起こし", "長座体前屈", "反復横とび", "持久走", "20mシャトルラン", "50m走", "立ち幅跳び", "ハンドボール投げ"];
     const tEvent = document.getElementById('trackingEvent');
     const tView = document.getElementById('trackingViewEvent');
+    
     if (tEvent && tView) {
         const options = evs.map((e, i) => `<option value="${i}">${e}</option>`).join('');
         tEvent.innerHTML = options;
         tView.innerHTML = options;
     }
-    
-    console.log("初期化が完了しました");
+
+    // 3. トラッキング表示の更新（保存されているデータの読み込み）
+    if (typeof updateTrackingView === 'function') {
+        updateTrackingView();
+    }
 }
 
-// ページ読み込み完了時に実行
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', masterInit);
-} else {
-    masterInit();
-}
+// ページ読み込み時に実行
+window.addEventListener('DOMContentLoaded', masterInit);
