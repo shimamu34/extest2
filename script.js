@@ -596,11 +596,72 @@ function setGoal(goalType) {
 function RR(g) {
     const cv = document.getElementById("rc");
     const ctx = cv.getContext("2d");
+    const h = D[g].h.slice(0, -1); // 合計を除いた種目
+    const scores = [];
+    
+    // 現在の入力を取得
+    for (let i = 0; i < 9; i++) {
+        const v = parseFloat(document.getElementById('i' + i).value);
+        if (isNaN(v)) {
+            scores.push(0);
+        } else {
+            scores.push(CS(v, D[g].h[i], g)); // 点数に変換
+        }
+    }
+
     ctx.clearRect(0, 0, cv.width, cv.height);
-    ctx.fillStyle = '#666';
-    ctx.font = '18px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('データを入力するとレーダーチャートが表示されます', 300, 300);
+    
+    const center = 300;
+    const radius = 200;
+    const angleStep = (Math.PI * 2) / h.length;
+
+    // 背景の円（ガイドライン）
+    ctx.strokeStyle = "#e0e0e0";
+    ctx.lineWidth = 1;
+    for (let r = 1; r <= 10; r++) {
+        ctx.beginPath();
+        for (let i = 0; i <= h.length; i++) {
+            const angle = i * angleStep - Math.PI / 2;
+            const x = center + (radius * r / 10) * Math.cos(angle);
+            const y = center + (radius * r / 10) * Math.sin(angle);
+            if (i === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
+
+    // 軸の描画とラベル
+    ctx.fillStyle = "#666";
+    ctx.font = "14px Arial";
+    h.forEach((name, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const x = center + (radius + 30) * Math.cos(angle);
+        const y = center + (radius + 30) * Math.sin(angle);
+        ctx.textAlign = "center";
+        ctx.fillText(name, x, y);
+
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.lineTo(center + radius * Math.cos(angle), center + radius * Math.sin(angle));
+        ctx.stroke();
+    });
+
+    // データの描画
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(43, 108, 176, 0.5)";
+    ctx.strokeStyle = "#2b6cb0";
+    ctx.lineWidth = 3;
+    scores.forEach((score, i) => {
+        const angle = i * angleStep - Math.PI / 2;
+        const dist = (score / 10) * radius;
+        const x = center + dist * Math.cos(angle);
+        const y = center + dist * Math.sin(angle);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+    });
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
 }
 
 // 経年変化グラフ
