@@ -1,3 +1,6 @@
+// デバッグ用
+console.log('script.js loaded');
+
 // データ定義
 const D = {
     male: {
