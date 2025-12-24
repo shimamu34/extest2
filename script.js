@@ -1422,25 +1422,32 @@ function saveUrlAndNext() {
     }
 }
 
-// イベントリスナー
-document.getElementById("gender").addEventListener("change", () => {
-    const g = document.getElementById("gender").value;
+// イベントリスナーと初期化
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded - 初期化開始');
+    
+    // 初期表示
     RT();
     RS();
-    if (document.getElementById("radar").style.display !== "none") RR(g);
-    if (document.getElementById("growth").style.display !== "none") RG(g);
-    if (document.getElementById("correlation").style.display !== "none") RAnalysis(g);
-    if (document.getElementById("tracking").style.display !== "none") updateTrackingView();
+    RE();
     LI();
-});
-
-document.getElementById("grade").addEventListener("change", U);
-
-// 初期化
-RT();
-RS();
-RE();
-LI();tracking-${g}`;
+    
+    // イベントリスナー設定
+    document.getElementById("gender").addEventListener("change", () => {
+        const g = document.getElementById("gender").value;
+        RT();
+        RS();
+        if (document.getElementById("radar").style.display !== "none") RR(g);
+        if (document.getElementById("growth").style.display !== "none") RG(g);
+        if (document.getElementById("correlation").style.display !== "none") RAnalysis(g);
+        if (document.getElementById("tracking").style.display !== "none") updateTrackingView();
+        LI();
+    });
+    
+    document.getElementById("grade").addEventListener("change", U);
+    
+    console.log('初期化完了');
+});tracking-${g}`;
     let trackingData = JSON.parse(localStorage.getItem(key) || '{}');
     
     if (!trackingData[eventIdx]) {
