@@ -54,7 +54,12 @@
     </div>
     
     <div id="radar" style="display:none" class="card">
-        <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📊 レーダーチャート</h3>
+        <h3 style="text-align:center;color:#2b6cb0;margin-bottom:20px">📊 レーダーチャート</h3>　　
+　　　　　 <button class="btn" id="btn-me" style="background:#2b6cb0;padding:8px 15px;font-size:12px" onclick="tglD('me')">👤 自分</button>
+        <button class="btn" id="btn-obi" style="background:#4A5568;padding:8px 15px;font-size:12px" onclick="tglD('obi')">🏘️ 帯広市</button>
+        <button class="btn" id="btn-hok" style="background:#4A5568;padding:8px 15px;font-size:12px" onclick="tglD('hok')">❄️ 北海道</button>
+        <button class="btn" id="btn-jpn" style="background:#4A5568;padding:8px 15px;font-size:12px" onclick="tglD('jpn')">🇯🇵 全国</button>
+    </div>
         <div style="display:flex;justify-content:center">
             <canvas id="rc" width="600" height="600"></canvas>
         </div>
